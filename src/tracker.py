@@ -38,6 +38,12 @@ def get_status(items):
         print(item.name + " - sold out: " + str(item.sold_out))
 
 
-# print the status of each url
-items = get_items()
-get_status(items)
+def main():
+    
+    # print the status of each url
+    items = get_items()
+    get_status(items)
+
+
+if __name__ == "__main__":
+    main()
