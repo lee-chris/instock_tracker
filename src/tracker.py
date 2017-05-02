@@ -6,6 +6,7 @@ import urllib.request
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from item import Status
 
 def get_items():
     """Get the items to track."""
@@ -53,17 +54,19 @@ def get_status_bestbuy(html):
     status = button_div[state_start + 22:state_end]
     
     if status == "SOLD_OUT_ONLINE":
-        return item.Status.SOLD_OUT
+        return Status.SOLD_OUT
     elif status == "PRE_ORDER":
-        return item.Status.PRE_ORDER
+        return Status.PRE_ORDER
     elif status == "ADD_TO_CART":
-        return item.Status.IN_STOCK
+        return Status.IN_STOCK
     else:
-        return item.Status.UNKNOWN
+        return Status.UNKNOWN
 
 
 def get_status(items):
     """Get the status of each item."""
+    
+    instock_items = []
     
     for item in items:
         
@@ -80,6 +83,11 @@ def get_status(items):
             print("unrecognized url: " + item.url)
         
         item.set_status(sold_out)
+        
+        if item.status == Status.IN_STOCK or item.status == Status.PRE_ORDER:
+            instock_items.append(item)
+        
+    return instock_items
 
 
 def send_email(subject, text, html):
@@ -136,13 +144,16 @@ def main():
     
     # print the status of each url
     items = get_items()
-    get_status(items)
-    status_msg, status_html = get_status_message(items)
-    print(status_msg)
+    instock_items = get_status(items)
     
-    send_email(
-        "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
-        status_msg, status_html)
+    if len(instock_items) > 0:
+        
+        status_msg, status_html = get_status_message(instock_items)
+        print(status_msg)
+        
+        send_email(
+            "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
+            status_msg, status_html)
 
 
 if __name__ == "__main__":
