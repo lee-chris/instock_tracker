@@ -2,6 +2,7 @@ import configparser
 import datetime
 import item
 import smtplib
+import time
 import urllib.request
 
 from email.mime.multipart import MIMEMultipart
@@ -25,6 +26,7 @@ def get_items():
         "Breath of the Wild Link Archer Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
+    """
     items.append(item.Item(
         "Super Smash Bros Cloud Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-cloud/5433400.p"))
@@ -32,6 +34,7 @@ def get_items():
     items.append(item.Item(
         "Super Smash Bros Mega Man Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-series-mega-man/1378006.p"))
+    """
     
     return items
 
@@ -142,18 +145,23 @@ def get_status_message(items):
 
 def main():
     
-    # print the status of each url
-    items = get_items()
-    instock_items = get_status(items)
-    
-    if len(instock_items) > 0:
+    while True:
         
-        status_msg, status_html = get_status_message(instock_items)
-        print(status_msg)
+        # print the status of each url
+        items = get_items()
+        instock_items = get_status(items)
         
-        send_email(
-            "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
-            status_msg, status_html)
+        if len(instock_items) > 0:
+            
+            status_msg, status_html = get_status_message(instock_items)
+            #print(status_msg)
+            
+            send_email(
+                "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
+                status_msg, status_html)
+        
+        # sleep 5 minutes
+        time.sleep(300)
 
 
 if __name__ == "__main__":
