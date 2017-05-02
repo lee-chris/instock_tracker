@@ -48,11 +48,13 @@ def get_status_bestbuy(html):
     status = button_div[state_start + 22:state_end]
     
     if status == "SOLD_OUT_ONLINE":
-        sold_out = True
+        return item.Status.SOLD_OUT
+    elif status == "PRE_ORDER":
+        return item.Status.PRE_ORDER
+    elif status == "ADD_TO_CART":
+        return item.Status.IN_STOCK
     else:
-        sold_out = False
-    
-    return sold_out
+        return item.Status.UNKNOWN
 
 
 def get_status(items):
@@ -108,7 +110,7 @@ def get_status_message(items):
         msg += "\r\n"
         msg += item.url
         msg += "\r\n"
-        msg += "sold out: " + str(item.sold_out)
+        msg += "status: " + item.status.name
     
     return msg
 

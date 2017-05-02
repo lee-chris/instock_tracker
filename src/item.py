@@ -1,3 +1,12 @@
+from enum import Enum
+
+class Status(Enum):
+    
+    UNKNOWN = -1
+    SOLD_OUT = 0
+    IN_STOCK = 1
+    PRE_ORDER = 2
+
 class Item(object):
     """Container object for each item to track.
     
@@ -6,7 +15,7 @@ class Item(object):
     Attributes:
         name: user friendly name for the item
         url: url to the item page
-        sold_out: boolean flag to indicate that the item is sold out (true means sold out)
+        status: item status
     """
     
     def __init__(self, name, url):
@@ -22,14 +31,14 @@ class Item(object):
         
         # abitrarily set to True here.
         # for the time being I don't want to take action if the item is sold out.
-        self.sold_out = True
+        self.status = Status.UNKNOWN
     
     
-    def set_status(self, sold_out):
+    def set_status(self, status):
         """Set the in stock status for this Item.
         
         Args:
-            sold_out: boolean flag to indicate that the item is sold out
+            status: item status
         """
         
-        self.sold_out = sold_out
+        self.status = status
