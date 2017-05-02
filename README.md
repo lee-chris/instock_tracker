@@ -1,6 +1,9 @@
 # instock_tracker
 Basic functionality of nowinstock.net
 
+## Requirements
+* Python 3.6
+
 ## Example tracker.ini
 ```
 [smtp]
