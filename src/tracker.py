@@ -1,7 +1,11 @@
 import configparser
+import datetime
 import item
 import smtplib
 import urllib.request
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 def get_items():
     """Get the items to track."""
@@ -27,6 +31,7 @@ def get_items():
     items.append(item.Item(
         "Super Smash Bros Mega Man Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-series-mega-man/1378006.p"))
+    
     return items
 
 
@@ -77,7 +82,7 @@ def get_status(items):
         item.set_status(sold_out)
 
 
-def send_email(subject, msg):
+def send_email(subject, text, html):
     """Send an email message using the settings in tracker.ini."""
     
     config = configparser.ConfigParser()
@@ -88,31 +93,43 @@ def send_email(subject, msg):
     server.starttls()
     server.login(config["smtp"]["username"], config["smtp"]["password"])
     
-    body = "\r\n".join([
-        "From: " + config["message"]["from"],
-        "To: " + config["message"]["to"],
-        "Subject: " + subject,
-        "",
-        msg
-        ])
+    msg = MIMEMultipart('alternative')
+    msg["Subject"] = subject
+    msg["From"] = config["message"]["from"]
+    msg["To"] = config["message"]["to"]
     
-    server.sendmail(config["message"]["from"], config["message"]["to"], body)
-    server.close()
+    part1 = MIMEText(text, "plain")
+    part2 = MIMEText(html, "html")
+    
+    msg.attach(part1)
+    msg.attach(part2)
+    
+    server.sendmail(config["message"]["from"], config["message"]["to"], msg.as_string())
+    server.quit()
 
 
 def get_status_message(items):
     """Build stock status message using the given list of items."""
     
     msg = "Item Status\r\n"
+    html = "<html><head></head><body><h1>Item Status</h1>"
+    
     for item in items:
+        
         msg += "\r\n\r\n"
         msg += item.name
         msg += "\r\n"
         msg += item.url
         msg += "\r\n"
         msg += "status: " + item.status.name
+        
+        html += "<div style=\"margin-top: 1em\"><p>" + item.name + "<br/>" + item.url + "<br/>"
+        html += "status: " + item.status.name
+        html += "</p></div>"
     
-    return msg
+    html += "</body></html>"
+    
+    return msg, html
 
 
 def main():
@@ -120,10 +137,12 @@ def main():
     # print the status of each url
     items = get_items()
     get_status(items)
-    status_msg = get_status_message(items)
+    status_msg, status_html = get_status_message(items)
     print(status_msg)
     
-    send_email("InStock Tracker - Item Status", status_msg)
+    send_email(
+        "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
+        status_msg, status_html)
 
 
 if __name__ == "__main__":
