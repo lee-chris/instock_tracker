@@ -4,7 +4,7 @@ import smtplib
 import urllib.request
 
 def get_items():
-    """Get the items to track"""
+    """Get the items to track."""
     
     items = []
     
@@ -24,7 +24,7 @@ def get_items():
 
 
 def get_status(items):
-    """Get the status of each item"""
+    """Get the status of each item."""
     
     for item in items:
         
@@ -35,13 +35,10 @@ def get_status(items):
         sold_out = str(data).find("SOLD_OUT_ONLINE") > -1
         
         item.set_status(sold_out)
-        
-        # print out status
-        print(item.name + " - sold out: " + str(item.sold_out))
 
 
 def send_email(subject, msg):
-    """Send an email message using the settings in tracker.ini"""
+    """Send an email message using the settings in tracker.ini."""
     
     config = configparser.ConfigParser()
     config.read("tracker.ini")
@@ -63,13 +60,30 @@ def send_email(subject, msg):
     server.close()
 
 
+def get_status_message(items):
+    """Build stock status message using the given list of items."""
+    
+    msg = "Item Status\r\n"
+    for item in items:
+        msg += "\r\n\r\n"
+        msg += item.name
+        msg += "\r\n"
+        msg += item.url
+        msg += "\r\n"
+        msg += "sold out: " + str(item.sold_out)
+    
+    return msg
+
+
 def main():
     
     # print the status of each url
     items = get_items()
     get_status(items)
+    status_msg = get_status_message(items)
+    print(status_msg)
     
-    send_email("InStock Tracker - Test Message", "test")
+    send_email("InStock Tracker - Item Status", status_msg)
 
 
 if __name__ == "__main__":
