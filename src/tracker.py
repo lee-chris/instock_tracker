@@ -10,17 +10,49 @@ def get_items():
     
     items.append(item.Item(
         "Breath of the Wild Zelda Amiibo",
-        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-zelda/5723538.p?skuId=5723538"))
+        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-zelda/5723538.p"))
     
     items.append(item.Item(
         "Breath of the Wild Guardian Amiibo",
-        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-guardian/5723700.p?skuId=5723700"))
+        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-guardian/5723700.p"))
     
     items.append(item.Item(
         "Breath of the Wild Link Archer Amiibo",
-        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p?skuId=5723537"))
+        "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
+    items.append(item.Item(
+        "Super Smash Bros Cloud Amiibo",
+        "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-cloud/5433400.p"))
+    
+    items.append(item.Item(
+        "Super Smash Bros Mega Man Amiibo",
+        "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-series-mega-man/1378006.p"))
     return items
+
+
+def get_status_bestbuy(html):
+    """Parse the product status from bestbuy.com html."""
+    
+    html = str(html)
+    
+    # find the cart button div
+    start = html.find("<div class=\"cart-button\"")
+    end = html.find(">", start + 1)
+    
+    button_div = html[start:end + 1]
+    
+    # find the data-button-state-id attribute
+    state_start = button_div.find("data-button-state-id=\"")
+    state_end = button_div.find("\"", state_start + 22)
+    
+    status = button_div[state_start + 22:state_end]
+    
+    if status == "SOLD_OUT_ONLINE":
+        sold_out = True
+    else:
+        sold_out = False
+    
+    return sold_out
 
 
 def get_status(items):
@@ -32,7 +64,13 @@ def get_status(items):
         data = urllib.request.urlopen(item.url).read()
         
         # look for text indicating that the item is sold out
-        sold_out = str(data).find("SOLD_OUT_ONLINE") > -1
+        
+        # if bestbuy.com url
+        if item.url.find("bestbuy.com") > -1:
+            sold_out = get_status_bestbuy(data)
+        
+        else:
+            print("unrecognized url: " + item.url)
         
         item.set_status(sold_out)
 
