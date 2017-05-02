@@ -1,4 +1,6 @@
+import configparser
 import item
+import smtplib
 import urllib.request
 
 def get_items():
@@ -38,11 +40,36 @@ def get_status(items):
         print(item.name + " - sold out: " + str(item.sold_out))
 
 
+def send_email(subject, msg):
+    """Send an email message using the settings in tracker.ini"""
+    
+    config = configparser.ConfigParser()
+    config.read("tracker.ini")
+    
+    server = smtplib.SMTP(config["smtp"]["server"])
+    server.ehlo()
+    server.starttls()
+    server.login(config["smtp"]["username"], config["smtp"]["password"])
+    
+    body = "\r\n".join([
+        "From: " + config["message"]["from"],
+        "To: " + config["message"]["to"],
+        "Subject: " + subject,
+        "",
+        msg
+        ])
+    
+    server.sendmail(config["message"]["from"], config["message"]["to"], body)
+    server.close()
+
+
 def main():
     
     # print the status of each url
     items = get_items()
     get_status(items)
+    
+    send_email("InStock Tracker - Test Message", "test")
 
 
 if __name__ == "__main__":
