@@ -1,12 +1,12 @@
 import configparser
 import datetime
-import item
 import smtplib
 import time
 import urllib.request
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from item import Item
 from item import Status
 
 def get_items():
@@ -14,38 +14,38 @@ def get_items():
     
     items = []
     
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Zelda Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-zelda/5723538.p"))
     
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Guardian Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-guardian/5723700.p"))
     
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Link Archer Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
     """
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Zelda Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP"))
     
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Guardian Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N6QPWBV"))
     
-    items.append(item.Item(
+    items.append(Item(
         "Breath of the Wild Link Archer Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2"))
     """
 
     """
-    items.append(item.Item(
+    items.append(Item(
         "Super Smash Bros Cloud Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-cloud/5433400.p"))
     
-    items.append(item.Item(
+    items.append(Item(
         "Super Smash Bros Mega Man Amiibo",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-super-smash-bros-series-mega-man/1378006.p"))
     """
