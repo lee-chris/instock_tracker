@@ -26,6 +26,7 @@ def get_items():
         "Breath of the Wild Link Archer Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
+    """
     items.append(item.Item(
         "Breath of the Wild Zelda Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP"))
@@ -37,6 +38,7 @@ def get_items():
     items.append(item.Item(
         "Breath of the Wild Link Archer Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2"))
+    """
 
     """
     items.append(item.Item(
