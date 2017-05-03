@@ -192,8 +192,7 @@ def main():
         print("get_status - " + str(datetime.datetime.utcnow()))
         instock_items = get_status(items)
         
-        #if len(instock_items) > 0:
-        if len(items) > 0:
+        if len(instock_items) > 0:
             
             # print the status of each url
             status_msg, status_html = get_status_message(instock_items)
