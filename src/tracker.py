@@ -106,6 +106,7 @@ def get_status(items):
         #    item.url = amazon.search(item.keywords)
         
         # get html for product page
+        print(item.url)
         data = urllib.request.urlopen(item.url).read()
         
         # look for text indicating that the item is sold out
