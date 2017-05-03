@@ -15,19 +15,22 @@ class Item(object):
     Attributes:
         name: user friendly name for the item
         url: url to the item page
+        keywords: search keywords
         status: item status
     """
     
-    def __init__(self, name, url):
+    def __init__(self, name, url, keywords=""):
         """Construct an Item object.
         
         Args:
             name: user friendly name for the item
             url: url to the item page
+            keywords: search keywoards (optional)
         """
         
         self.name = name
         self.url = url
+        self.keywords = keywords
         
         # abitrarily set to True here.
         # for the time being I don't want to take action if the item is sold out.

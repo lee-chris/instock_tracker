@@ -1,3 +1,4 @@
+import amazon
 import configparser
 import datetime
 import smtplib
@@ -26,19 +27,20 @@ def get_items():
         "Breath of the Wild Link Archer Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
-    """
     items.append(Item(
         "Breath of the Wild Zelda Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP"))
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP",
+        "Breath of the Wild Zelda Amiibo"))
     
     items.append(Item(
         "Breath of the Wild Guardian Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N6QPWBV"))
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N6QPWBV",
+        "Breath of the Wild Guardian Amiibo"))
     
     items.append(Item(
         "Breath of the Wild Link Archer Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2"))
-    """
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2",
+        "Breath of the Wild Link Archer Amiibo"))
 
     """
     items.append(Item(
@@ -100,6 +102,9 @@ def get_status(items):
     
     for item in items:
         
+        if item.url.find("amazon.com") > -1:
+            item.url = amazon.search(item.keywords)
+        
         # get html for product page
         data = urllib.request.urlopen(item.url).read()
         
@@ -122,6 +127,8 @@ def get_status(items):
         if item.status == Status.IN_STOCK or item.status == Status.PRE_ORDER:
             if item.status != old_status:
                 instock_items.append(item)
+        
+        time.sleep(1)
         
     return instock_items
 
@@ -185,7 +192,8 @@ def main():
         print("get_status - " + str(datetime.datetime.utcnow()))
         instock_items = get_status(items)
         
-        if len(instock_items) > 0:
+        #if len(instock_items) > 0:
+        if len(items) > 0:
             
             # print the status of each url
             status_msg, status_html = get_status_message(instock_items)
