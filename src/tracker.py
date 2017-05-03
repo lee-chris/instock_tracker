@@ -102,8 +102,8 @@ def get_status(items):
     
     for item in items:
         
-        if item.url.find("amazon.com") > -1:
-            item.url = amazon.search(item.keywords)
+        #if item.url.find("amazon.com") > -1:
+        #    item.url = amazon.search(item.keywords)
         
         # get html for product page
         data = urllib.request.urlopen(item.url).read()
