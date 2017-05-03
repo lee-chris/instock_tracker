@@ -85,10 +85,13 @@ def get_status(items):
         else:
             print("unrecognized url: " + item.url)
         
+        old_status = item.status
         item.set_status(sold_out)
-        
+
+        # only return items that are in stock and have not changed        
         if item.status == Status.IN_STOCK or item.status == Status.PRE_ORDER:
-            instock_items.append(item)
+            if item.status != old_status:
+                instock_items.append(item)
         
     return instock_items
 
@@ -145,16 +148,18 @@ def get_status_message(items):
 
 def main():
     
+    items = get_items()
+    
     while True:
         
-        # print the status of each url
-        items = get_items()
+        print("get_status - " + str(datetime.datetime.utcnow()))
         instock_items = get_status(items)
         
         if len(instock_items) > 0:
             
+            # print the status of each url
             status_msg, status_html = get_status_message(instock_items)
-            #print(status_msg)
+            print(status_msg)
             
             send_email(
                 "InStock Tracker - Item Status - " + str(datetime.datetime.utcnow()),
