@@ -15,17 +15,29 @@ def get_items():
     items = []
     
     items.append(item.Item(
-        "Breath of the Wild Zelda Amiibo",
+        "Breath of the Wild Zelda Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-zelda/5723538.p"))
     
     items.append(item.Item(
-        "Breath of the Wild Guardian Amiibo",
+        "Breath of the Wild Guardian Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-guardian/5723700.p"))
     
     items.append(item.Item(
-        "Breath of the Wild Link Archer Amiibo",
+        "Breath of the Wild Link Archer Amiibo - Bestbuy.com",
         "http://www.bestbuy.com/site/nintendo-amiibo-figure-the-legend-of-zelda-breath-of-the-wild-series-link-archer/5723537.p"))
     
+    items.append(item.Item(
+        "Breath of the Wild Zelda Amiibo - Amazon.com",
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP"))
+    
+    items.append(item.Item(
+        "Breath of the Wild Guardian Amiibo - Amazon.com",
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N6QPWBV"))
+    
+    items.append(item.Item(
+        "Breath of the Wild Link Archer Amiibo - Amazon.com",
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2"))
+
     """
     items.append(item.Item(
         "Super Smash Bros Cloud Amiibo",
@@ -66,6 +78,19 @@ def get_status_bestbuy(html):
         return Status.UNKNOWN
 
 
+def get_status_amazon(html):
+    """Parse the product status from amazon.com html."""
+    
+    html = str(html)
+    
+    # simply look for an add to cart button
+    # TODO add parsing to identify preorders
+    if html.find("input id=\"add-to-cart-button") == -1:
+        return Status.SOLD_OUT
+    else:
+        return Status.IN_STOCK
+
+
 def get_status(items):
     """Get the status of each item."""
     
@@ -82,6 +107,9 @@ def get_status(items):
         if item.url.find("bestbuy.com") > -1:
             sold_out = get_status_bestbuy(data)
         
+        elif item.url.find("amazon.com") > -1:
+            sold_out = get_status_amazon(data)
+            
         else:
             print("unrecognized url: " + item.url)
         
