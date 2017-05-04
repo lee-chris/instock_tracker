@@ -111,8 +111,10 @@ def get_status(items):
             data = urllib.request.urlopen(item.url).read()
         except urllib.error.HTTPError as e:
             print("Error code: ", e.code)
+            continue
         except urllib.error.URLError as e:
             print("Reason: ", e.reason)
+            continue
         
         # look for text indicating that the item is sold out
         
