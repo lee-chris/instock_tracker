@@ -41,7 +41,15 @@ def get_items():
         "Breath of the Wild Link Archer Amiibo - Amazon.com",
         "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2",
         "Breath of the Wild Link Archer Amiibo"))
-
+    
+    items.append(Item(
+        "Breath of the Wild Link Rider Amiibo - Amazon.com",
+        "https://www.amazon.com/Nintendo-amiibo-Link-Rider-Breath-Wild/dp/B01N33LIXR"))
+    
+    items.append(Item(
+        "Breath of the Wild Bokoblin Amiibo - Amazon.com",
+        "https://www.amazon.com/Nintendo-amiibo-Link-Rider-Breath-Wild/dp/B01N33OBYK"))
+    
     """
     items.append(Item(
         "Super Smash Bros Cloud Amiibo",
@@ -91,6 +99,12 @@ def get_status_amazon(html):
     # TODO add parsing to identify preorders
     if html.find("input id=\"add-to-cart-button") == -1:
         return Status.SOLD_OUT
+    
+    # if there is a "Fulfilled by Amazon" link
+    # I only care about the sold by amazon.com items
+    elif html.find("SSOFpopoverLink") != -1:
+        return Status.SOLD_OUT
+    
     else:
         return Status.IN_STOCK
 
