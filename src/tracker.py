@@ -3,7 +3,7 @@ import configparser
 import datetime
 import smtplib
 import time
-import urllib.request
+import requests
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -121,14 +121,8 @@ def get_status(items):
         
         # get html for product page
         print(item.url)
-        try:
-            data = urllib.request.urlopen(item.url).read()
-        except urllib.error.HTTPError as e:
-            print("Error code: ", e.code)
-            continue
-        except urllib.error.URLError as e:
-            print("Reason: ", e.reason)
-            continue
+        req = requests.get(item.url)
+        data = req.text
         
         # look for text indicating that the item is sold out
         
