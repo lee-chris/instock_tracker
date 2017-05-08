@@ -29,26 +29,26 @@ def get_items():
     
     items.append(Item(
         "Breath of the Wild Zelda Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N10NIBP",
+        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild-wii-u/dp/B01N10NIBP",
         "Breath of the Wild Zelda Amiibo"))
     
     items.append(Item(
         "Breath of the Wild Guardian Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N6QPWBV",
+        "https://www.amazon.com/Nintendo-amiibo-Guardian-Breath-Wild-wii-u/dp/B01N6QPWBV",
         "Breath of the Wild Guardian Amiibo"))
     
     items.append(Item(
         "Breath of the Wild Link Archer Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Zelda-Breath-Wild/dp/B01N4NTNO2",
+        "https://www.amazon.com/Nintendo-amiibo-Link-Archer-Breath-wii-u/dp/B01N4NTNO2",
         "Breath of the Wild Link Archer Amiibo"))
     
     items.append(Item(
         "Breath of the Wild Link Rider Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Link-Rider-Breath-Wild/dp/B01N33LIXR"))
+        "https://www.amazon.com/Nintendo-amiibo-Link-Rider-Breath-wii-u/dp/B01N33LIXR"))
     
     items.append(Item(
         "Breath of the Wild Bokoblin Amiibo - Amazon.com",
-        "https://www.amazon.com/Nintendo-amiibo-Link-Rider-Breath-Wild/dp/B01N33OBYK"))
+        "https://www.amazon.com/Nintendo-amiibo-Bokoblin-Breath-Wild-wii-u/dp/B01N33OBYK"))
     
     """
     items.append(Item(
